@@ -1,4 +1,3 @@
-
 /**
  *
  * @return Instance of GCM
@@ -29,7 +28,7 @@ GCM.prototype.register = function(senderID, eventCallback, successCallback, fail
               failureCallback,       //Callback which will be called when directory listing encounters an error
               'GCMPlugin',        //Telling Cordova that we want to run "DirectoryListing" Plugin
               'register',             //Telling the plugin, which action we want to perform
-              [{ email: senderID, ecb : eventCallback }]);          //Passing a list of arguments to the plugin,
+              [{ senderID: senderID, ecb : eventCallback }]);          //Passing a list of arguments to the plugin,
                           // The ecb variable is the STRING name of your javascript routine to be used for callbacks
                           // You can add more to validate that eventCallback is a string and not an object
 };
