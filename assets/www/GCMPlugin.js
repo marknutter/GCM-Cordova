@@ -50,8 +50,12 @@ GCM.prototype.unregister = function( successCallback, failureCallback ) {
  */
 
 
-cordova.addConstructor(function() {
-  //Register the javascript plugin with Cordova
-  cordova.addPlugin('GCM', new GCM());
 
-});
+if( cordova.addPlugin ){
+  cordova.addConstructor(function() {
+    //Register the javascript plugin with Cordova
+    cordova.addPlugin('GCM', new GCM());
+  });
+}else{
+  window.GCM = new GCM();
+}

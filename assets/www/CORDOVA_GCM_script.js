@@ -9,7 +9,7 @@ window.onbeforeunload  =  function(e) {
     if ( gApp.gcmregid.length > 0 )
     {
       // The same routines are called for success/fail on the unregister. You can make them unique if you like
-      window.plugins.GCM.unregister( GCM_Success, GCM_Fail );      // close the GCM
+      window.GCM.unregister( GCM_Success, GCM_Fail );      // close the GCM
 
     }
 };
@@ -34,7 +34,7 @@ document.addEventListener('deviceready', function() {
   // CHANGE: your_app_id
   // TO: what ever your GCM authorized senderId is
   //
-  window.plugins.GCM.register("your_sender_id", "GCM_Event", GCM_Success, GCM_Fail );
+  window.GCM.register("your_sender_id", "GCM_Event", GCM_Success, GCM_Fail );
 
 }, false );
 
