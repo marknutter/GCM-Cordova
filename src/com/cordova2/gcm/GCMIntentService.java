@@ -1,4 +1,4 @@
-package com.cordova2.gcm;
+package com.redeguia.mobile;
 
 import com.google.android.gcm.*;
 import org.json.JSONException;
@@ -9,15 +9,14 @@ import android.os.Bundle;
 import android.util.Log;
 import com.plugin.GCM.GCMPlugin;
 
-
 public class GCMIntentService extends GCMBaseIntentService {
 
-  public static final String ME="GCMReceiver";
+  public static final String ME = "GCMReceiver";
+  private static final String TAG = "GCMIntentService";
 
   public GCMIntentService() {
     super("GCMIntentService");
   }
-  private static final String TAG = "GCMIntentService";
 
   @Override
   public void onRegistered(Context context, String regId) {
@@ -27,21 +26,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 
     JSONObject json;
 
-    try
-    {
+    try {
       json = new JSONObject().put("event", "registered");
       json.put("regid", regId);
 
       Log.v(ME + ":onRegisterd", json.toString());
 
-      // Send this JSON data to the JavaScript application above EVENT should be set to the msg type
-      // In this case this is the registration ID
-      GCMPlugin.sendJavascript( json );
-
-    }
-    catch( JSONException e)
-    {
-      // No message to the user is sent, JSON failed
+      GCMPlugin.sendJavascript(json);
+    } catch (JSONException e) {
       Log.e(ME + ":onRegisterd", "JSON exception");
     }
   }
@@ -49,49 +41,44 @@ public class GCMIntentService extends GCMBaseIntentService {
   @Override
   public void onUnregistered(Context context, String regId) {
     Log.d(TAG, "onUnregistered - regId: " + regId);
+
+    try {
+      JSONObject json;
+      json = new JSONObject().put("event", "unregistered");
+      json.put("regid", regId);
+
+      Log.v(ME + ":onUnregistered ", json.toString());
+      GCMPlugin.sendJavascript(json);
+    } catch (JSONException e) {
+      Log.e(ME + ":onUnregistered", "JSON exception");
+    }
   }
 
   @Override
   protected void onMessage(Context context, Intent intent) {
     Log.d(TAG, "onMessage - context: " + context);
 
-    // Extract the payload from the message
     Bundle extras = intent.getExtras();
     if (extras != null) {
-      try
-      {
-        Log.v(ME + ":onMessage extras ", extras.getString("message"));
+      try {
+        JSONObject json = new JSONObject().put("event", "message");
 
-        JSONObject json;
-        json = new JSONObject().put("event", "message");
+        for (String string : extras.keySet())
+          json.put(string, extras.getString(string));
 
-
-        // My application on my host server sends back to "EXTRAS" variables message and msgcnt
-        // Depending on how you build your server app you can specify what variables you want to send
-        //
-        json.put("message", extras.getString("message"));
         json.put("msgcnt", extras.getString("msgcnt"));
 
+        GCMPlugin.sendJavascript(json);
+
         Log.v(ME + ":onMessage ", json.toString());
-
-        GCMPlugin.sendJavascript( json );
-        // Send the MESSAGE to the Javascript application
-      }
-      catch( JSONException e)
-      {
+      } catch (JSONException e) {
         Log.e(ME + ":onMessage", "JSON exception");
-      }        	
+      }
     }
-
-
   }
 
   @Override
   public void onError(Context context, String errorId) {
     Log.e(TAG, "onError - errorId: " + errorId);
   }
-
-
-
-
 }

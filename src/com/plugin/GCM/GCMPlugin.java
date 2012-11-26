@@ -1,10 +1,5 @@
 package com.plugin.GCM;
 
-
-//import java.io.*;
-//import java.util.*;
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,95 +11,86 @@ import org.apache.cordova.api.PluginResult;
 import org.apache.cordova.api.PluginResult.Status;
 import com.google.android.gcm.*;
 
-
 /**
- * @author awysocki
- *
+ * Original @author awysocki
+ * Co-@author Rafael Gumieri
  */
 
 public class GCMPlugin extends Plugin {
+  public static final String PLUGIN = "GCMPlugin";
+  public static final String REGISTER = "register";
+  public static final String UNREGISTER = "unregister";
 
-  public static final String ME="GCMPlugin";
-
-  public static final String REGISTER="register";
-  public static final String UNREGISTER="unregister";
-
-  public static Plugin gwebView;
+  public static Plugin plugin;
   private static String gECB;
   private static String gSenderID;
 
+  @Override
   @SuppressWarnings("deprecation")
-@Override
-  public PluginResult execute(String action, JSONArray data, String callbackId)
-  {
+  public PluginResult execute(String action, JSONArray data, String callbackId) {
+    Log.v(PLUGIN + ":execute", "action=" + action);
 
-    PluginResult result = null;
-
-    Log.v(ME + ":execute", "action=" + action);
-
-    if (REGISTER.equals(action)) {
-
-      Log.v(ME + ":execute", "data=" + data.toString());
-
-      try {
-
-        JSONObject jo= new JSONObject(data.toString().substring(1, data.toString().length()-1));
-
-        gwebView = this;
-
-        Log.v(ME + ":execute", "jo=" + jo.toString());
-
-        gECB = (String)jo.get("ecb");
-        gSenderID = (String)jo.get("senderID");
-
-        Log.v(ME + ":execute", "ECB="+gECB+" senderID="+gSenderID );
-
-        GCMRegistrar.register(this.ctx.getContext(), gSenderID);
-
-
-        Log.v(ME + ":execute", "GCMRegistrar.register called ");
-
-        result = new PluginResult(Status.OK);
-      }
-      catch (JSONException e) {
-        Log.e(ME, "Got JSON Exception "
-          + e.getMessage());
-        result = new PluginResult(Status.JSON_EXCEPTION);
-      }
-    }
-    else if (UNREGISTER.equals(action)) {
-
-      GCMRegistrar.unregister(this.ctx.getContext());
-      Log.v(ME + ":" + UNREGISTER, "GCMRegistrar.unregister called ");
-
-    }
-    else
-    {
-      result = new PluginResult(Status.INVALID_ACTION);
-      Log.e(ME, "Invalid action : "+action);
-    }
-
-    return result;
+    if    (REGISTER.equals(action)) return register(data);
+    else if (UNREGISTER.equals(action)) return unregister();
+    else return default_execution(action);
   }
 
+  private PluginResult register(JSONArray data) {
+    Log.v(PLUGIN + ":execute", "data=" + data.toString());
 
-  public static void sendJavascript( JSONObject _json )
-  {
-    String _d =  "javascript:"+gECB+"(" + _json.toString() + ")";
-        Log.v(ME + ":sendJavascript", _d);
+    try {
+      JSONObject jo = new JSONObject(data.toString().substring(1, data.toString().length() - 1));
+      Log.v(PLUGIN + ":execute", "jo=" + jo.toString());
 
-        if (gECB != null ) {
-          gwebView.sendJavascript( _d );
-        }
+      plugin    = this;
+      gECB    = (String) jo.get("ecb");
+      gSenderID = (String) jo.get("senderID");
+      Log.v(PLUGIN + ":execute", "ECB=" + gECB + " senderID=" + gSenderID);
+
+      boolean isRegistered = GCMRegistrar.isRegistered(this.ctx.getContext());
+      Log.v(PLUGIN + ":execute", "GCMRegistrar.isRegistered called. Value=" + isRegistered);
+
+      if (isRegistered) return new PluginResult(Status.NO_RESULT);
+
+      GCMRegistrar.register(this.ctx.getContext(), gSenderID);
+      Log.v(PLUGIN + ":execute", "GCMRegistrar.register called ");
+
+      return new PluginResult(Status.OK);
+    } catch (JSONException e) {
+      Log.e(PLUGIN, "Got JSON Exception " + e.getMessage());
+      return new PluginResult(Status.JSON_EXCEPTION);
+    }
   }
 
+  private PluginResult unregister() {
+    Log.v(PLUGIN + ":" + UNREGISTER, "GCMRegistrar.unregister called ");
+    GCMRegistrar.unregister(this.ctx.getContext());
+
+    return new PluginResult(Status.NO_RESULT);
+  }
+
+  private PluginResult default_execution(String action) {
+    Log.e(PLUGIN, "Invalid action : " + action);
+
+    return new PluginResult(Status.INVALID_ACTION);
+  }
+
+  public static void sendJavascript(JSONObject _json) {
+    String _d = "javascript:" + gECB + "(" + _json.toString() + ")";
+
+    if (gECB != null) plugin.sendJavascript(_d);
+    Log.v(PLUGIN + ":sendJavascript", _d);
+  }
 
   /**
    * Gets the Directory listing for file, in JSON format
-   * @param file The file for which we want to do directory listing
-   * @return JSONObject representation of directory list. e.g {"filename":"/sdcard","isdir":true,"children":[{"filename":"a.txt","isdir":false},{..}]}
+   * 
+   * @param file
+   *            The file for which we want to do directory listing
+   * @return JSONObject representation of directory list. e.g
+   *         {"filename":"/sdcard"
+   *         ,"isdir":true,"children":[{"filename":"a.txt"
+   *         ,"isdir":false},{..}]}
    * @throws JSONException
    */
-
-
 }
