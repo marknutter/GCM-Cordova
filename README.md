@@ -12,6 +12,8 @@ __Important - this demo will not go through the complete registration process on
 
 Add the com.google.android.gcm and com.plugin.GCM packages to your project. Add the GCMIntentService.java file to your application's main package.
 
+Modify your src.app_name.gcm.GCMIntentService.java "package" name on the first line to use you application name.
+
 Modify your AndroidManifest.xml to include the following lines to your manifest tag, replacing your_app_package with your app's package path:
 
 
@@ -37,7 +39,7 @@ Modify your AndroidManifest.xml to include the following lines to your applicati
     <service android:name=".GCMIntentService" />
 
 
-Modify your res/xml/plugins.xml to include the following line in order to tell Cordova to include this plugin and where it can be found:
+Modify your res/xml/config.xml to include the following line in order to tell Cordova to include this plugin and where it can be found:
 
     <plugin name="GCMPlugin" value="com.plugin.GCM.GCMPlugin" />
 

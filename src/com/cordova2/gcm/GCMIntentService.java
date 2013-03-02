@@ -1,4 +1,4 @@
-package com.cordova2.gcm;
+package com.cordova2.gcm; //Edit this to match the name of your application
 
 import com.google.android.gcm.*;
 import org.json.JSONException;
