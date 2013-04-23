@@ -45,7 +45,7 @@ Modify your res/xml/config.xml to include the following line in order to tell Co
 
 
 Follow the instructions [here](http://developer.android.com/guide/google/gcm/gs.html) on creating a Google API project to obtain a GCM sender ID. Replace all instances of "your_sender_id" in this plugin with that id (make sure you pass the ID as a string, not an int).
-
+Add your app to the [Google Play Store] and input your API keys in the "Services & APIs" section. No need to go live with the app to test it out.
 
 Add the GCMPlugin.js script to your assets/www folder (or javascripts folder, wherever you want really) and include it in your main index.html file.
 
