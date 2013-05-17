@@ -56,6 +56,8 @@ Add the GCMPlugin.js script to your assets/www folder (or javascripts folder, wh
 
 In the CORDOVA_GCM_script.js script you will see an example of how to interact with the GCMplugin. Modify it to suit your needs.
 
+## Support ##
+
 [![Get Support](http://codersclan.net/graphics/getSupport_github4.png)](http://codersclan.net/support/step1.php?repo_id=3)
 
 ## Notes and Gotchas
