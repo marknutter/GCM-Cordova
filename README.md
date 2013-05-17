@@ -8,6 +8,8 @@ This plugin is for use with [Cordova](http://incubator.apache.org/cordova/) and 
 
 __Important - this demo will not go through the complete registration process on an emulator (it will work on a real device). To get it to work on an emulator, you need to install the right libraries. You can follow [this guide](http://www.androidhive.info/2012/10/android-push-notifications-using-google-cloud-messaging-gcm-php-and-mysql/) under the section titled "Installing helper libraries and setting up the Emulator"__
 
+
+
 ## Installation
 
 Add the com.google.android.gcm and com.plugin.GCM packages to your project. Add the GCMIntentService.java file to your application's main package.
@@ -54,6 +56,7 @@ Add the GCMPlugin.js script to your assets/www folder (or javascripts folder, wh
 
 In the CORDOVA_GCM_script.js script you will see an example of how to interact with the GCMplugin. Modify it to suit your needs.
 
+[![Get Support](http://codersclan.net/graphics/getSupport_github4.png)](http://codersclan.net/support/step1.php?repo_id=3)
 
 ## Notes and Gotchas
 
