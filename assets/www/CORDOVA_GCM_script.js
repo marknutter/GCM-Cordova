@@ -24,13 +24,11 @@ document.addEventListener('deviceready', function() {
   gApp.DeviceReady = true;
 
   // Some unique stuff here:
-<<<<<<< HEAD
   // The first parameter is your Google senderID, which authorizes you to use GCM with
   // the Event Processing routine (the 2nd param). We pass in the senderID as a string,
   // not a pointer, to the routine. Under the covers, a JavaScript call is made so the name is used
   // to generate the function name to call. I didn't know how to call a JavaScript routine from Java.
   // The last two params are callback routines used by Cordova if the call succeeds or fails, respectively.
-=======
   //
   // CHANGE: your_sender_id
   // TO: whatever your GCM authorized senderID is
@@ -50,10 +48,8 @@ GCM_Event(e)
   switch( e.event )
   {
   case 'registered':
-<<<<<<< HEAD
     // The e variable points to the JSON returned as defined in GCMIntentService.java
     // In this case, I have EVENT and REGID defined on registered.
-=======
     gApp.gcmregid = e.regid;
     if ( gApp.gcmregid.length > 0 )
     {
