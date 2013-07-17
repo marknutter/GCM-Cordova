@@ -1,4 +1,4 @@
-gApp = new Array();
+gApp = [];
 
 gApp.deviceready = false;
 gApp.gcmregid = '';
@@ -23,17 +23,17 @@ document.addEventListener('deviceready', function() {
 
   gApp.DeviceReady = true;
 
-  // Some Unique stuff here,
-  // The first Parm is your Google email address that you were authorized to use GCM with
-  // the Event Processing rountine (2nd parm) we pass in the String name
-  // not a pointer to the routine, under the covers a JavaScript call is made so the name is used
-  // to generate the function name to call. I didn't know how to call a JavaScript routine from Java
-  // The last two parms are used by Cordova, they are the callback routines if the call is successful or fails
+  // Some unique stuff here:
+  // The first parameter is your Google senderID that you were authorized to use GCM with
+  // the Event Processing routine (the 2nd param). We pass in the String name,
+  // not a pointer to the routine. Under the covers, a JavaScript call is made so the name is used
+  // to generate the function name to call. I didn't know how to call a JavaScript routine from Java.
+  // The last two params are callback routines used by Cordova if the call is successful or fails.
   //
-  // CHANGE: your_app_id
-  // TO: what ever your GCM authorized senderId is
+  // CHANGE: your_sender_id
+  // TO: whatever your GCM authorized senderID is
   //
-  window.plugins.GCM.register("283007905632", "GCM_Event", GCM_Success, GCM_Fail );
+  window.plugins.GCM.register("your_sender_id", "GCM_Event", GCM_Success, GCM_Fail );
 
 }, false );
 
@@ -48,7 +48,7 @@ GCM_Event(e)
   switch( e.event )
   {
   case 'registered':
-    // the definition of the e variable is json return defined in GCMReceiver.java
+    // The e variable contains JSON return defined in GCMReceiver.java
     // In my case on registered I have EVENT and REGID defined
     gApp.gcmregid = e.regid;
     if ( gApp.gcmregid.length > 0 )
@@ -68,7 +68,7 @@ GCM_Event(e)
 
     }
 
-    break
+    break;
 
   case 'message':
     // the definition of the e variable is json return defined in GCMIntentService.java

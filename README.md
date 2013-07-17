@@ -46,7 +46,7 @@ Modify your res/xml/config.xml to include the following line in order to tell Co
     <plugin name="GCMPlugin" value="com.plugin.GCM.GCMPlugin" />
 
 
-Follow the instructions [here](http://developer.android.com/guide/google/gcm/gs.html) on creating a Google API project to obtain a GCM sender ID. Replace all instances of "your_sender_id" in this plugin with that id (make sure you pass the ID as a string, not an int).
+Follow the instructions [here](http://developer.android.com/guide/google/gcm/gs.html) on creating a Google API project to obtain a GCM sender ID. 
 Add your app to the [Google Play Store] and input your API keys in the "Services & APIs" section. No need to go live with the app to test it out.
 
 Add the GCMPlugin.js script to your assets/www folder (or javascripts folder, wherever you want really) and include it in your main index.html file.
@@ -54,7 +54,10 @@ Add the GCMPlugin.js script to your assets/www folder (or javascripts folder, wh
     <script type="text/javascript" charset="utf-8" src="GCMPlugin.js"></script>
 
 
-In the CORDOVA_GCM_script.js script you will see an example of how to interact with the GCMplugin. Modify it to suit your needs.
+In the CORDOVA_GCM_script.js script you will see an example of how to interact with the GCMplugin. Replace "your_sender_id" in the following line with your sender id number (make sure you pass the ID as a string, not an int), and then modify the script to suit your needs:
+
+window.plugins.GCM.register("your_sender_id", "GCM_Event", GCM_Success, GCM_Fail );
+
 
 ## Support ##
 
